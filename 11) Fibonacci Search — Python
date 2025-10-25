@@ -1,0 +1,43 @@
+# file: fibonacci_search.py
+def fibonacci_search(arr, x):
+    n = len(arr)
+    # Initialize fibonacci numbers
+    fibMMm2 = 0  # (m-2)'th Fibonacci
+    fibMMm1 = 1  # (m-1)'th Fibonacci
+    fibM = fibMMm2 + fibMMm1  # m'th Fibonacci
+
+    while fibM < n:
+        fibMMm2 = fibMMm1
+        fibMMm1 = fibM
+        fibM = fibMMm2 + fibMMm1
+
+    offset = -1
+    while fibM > 1:
+        i = min(offset + fibMMm2, n - 1)
+        if arr[i] < x:
+            fibM = fibMMm1
+            fibMMm1 = fibMMm2
+            fibMMm2 = fibM - fibMMm1
+            offset = i
+        elif arr[i] > x:
+            fibM = fibMMm2
+            fibMMm1 = fibMMm1 - fibMMm2
+            fibMMm2 = fibM - fibMMm1
+        else:
+            return i
+
+    if fibMMm1 and offset + 1 < n and arr[offset + 1] == x:
+        return offset + 1
+    return -1
+
+def main():
+    arr = [10,22,35,40,45,50,80,82,85,90,100]
+    x = 85
+    res = fibonacci_search(arr, x)
+    if res != -1:
+        print(f"Элемент найден на позиции: {res}")
+    else:
+        print("Элемент не найден")
+
+if __name__ == "__main__":
+    main()
